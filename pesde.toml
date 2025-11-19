@@ -1,5 +1,5 @@
 name = "rvy/jestir"
-version = "0.0.4-rc.1"
+version = "0.0.4-rc.2"
 includes = [
   "pesde.toml",
   "README.md",
@@ -24,7 +24,7 @@ pathfs = { name = "jiwonz/pathfs", version = "^0.6.0", target = "lune" }
 
 [dependencies]
 argparse = { name = "caveful_games/argparse", version = "^0.1.2", target = "lune" }
-rir3 = { name = "rvy/rir3", version = "^0.1.2-rc.2", target = "lune" }
+rir3 = { name = "rvy/rir3", version = "^0.1.2-rc.3", target = "lune" }
 rojo = { name = "pesde/rojo", version = "^7.6.0", target = "lune" }
 
 [indices]
