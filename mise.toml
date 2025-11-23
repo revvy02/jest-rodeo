@@ -1,0 +1,8 @@
+[tools]
+stylua = "latest"
+"ubi:Kampfkarren/selene" = "latest"
+"ubi:rojo-rbx/rojo" = "latest"
+"ubi:JohnnyMorganz/luau-lsp" = "latest"
+"ubi:pesde-pkg/pesde" = "latest"
+"ubi:revvy02/rodeo" = "latest"
+"ubi:seaofvoices/darklua" = "latest"

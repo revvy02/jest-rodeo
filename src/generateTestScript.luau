@@ -13,7 +13,7 @@ local function generateTestScript(options: TestOptions): string
 
 	table.insert(optionsTable, "verbose = " .. tostring(options.verbose))
 	table.insert(optionsTable, "ci = " .. tostring(options.ci))
-	table.insert(optionsTable, "noStackTrace = true")
+	-- table.insert(optionsTable, "noStackTrace = true")
 
 	if options.testNamePattern then
 		table.insert(optionsTable, `testNamePattern = "{options.testNamePattern}"`)

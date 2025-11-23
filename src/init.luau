@@ -37,17 +37,17 @@ local function loadEnvFile(): { [string]: string }
 end
 
 local function getApiKey(): string
-	local keyInEnv = process.env.JESTIR_API_KEY
+	local keyInEnv = process.env.JEST_RODEO_API_KEY
 	if keyInEnv then
 		return keyInEnv
 	end
 
 	local success, envFile = pcall(loadEnvFile)
 	if not success then
-		error("No environment variable set for JESTIR_API_KEY. Please set it in the environment or in the .env file.")
+		error("No environment variable set for JEST_RODEO_API_KEY. Please set it in the environment or in the .env file.")
 	end
 
-	return envFile.JESTIR_API_KEY
+	return envFile.JEST_RODEO_API_KEY
 end
 
 local function parseArgs()
@@ -55,10 +55,10 @@ local function parseArgs()
 
 	parser:flag("--verbose", "Enable verbose output")
 	parser:flag("--ci", "Run in CI mode")
-	parser:flag("--no-error", "Suppress error and info output from rir3")
-	parser:flag("--no-warn", "Suppress warning output from rir3")
+	parser:flag("--no-error", "Suppress error and info output from rodeo")
+	parser:flag("--no-warn", "Suppress warning output from rodeo")
 	parser:option("--target", "Execution target: once, serve, or cloud (default: serve)")
-	parser:option("--project", "Project name from jestir.toml to run tests for")
+	parser:option("--project", "Project name from jest-rodeo.toml to run tests for")
 	parser:option("--test-name-pattern", "Pattern to match test names (regex)")
 	parser:option("--test-path-pattern", "Pattern to match test file paths (regex)")
 	parser:option("--universe-id", "Universe ID for cloud execution")
@@ -72,72 +72,72 @@ local function parseArgs()
 	return parser:parse(process.args)
 end
 
-local function determineProjects(args, jestirConfig): ({ string }?, string?, string?)
+local function determineProjects(args, jestRodeoConfig): ({ string }?, string?, string?)
 	local projects: { string }? = nil
 	local testPathPattern: string? = args.test_path_pattern
 	local testNamePattern: string? = args.test_name_pattern
 
 	if args.project then
-		if not jestirConfig then
-			error("jestir.toml not found. Cannot use --project flag without config file.")
+		if not jestRodeoConfig then
+			error("jest-rodeo.toml not found. Cannot use --project flag without config file.")
 		end
 
-		local projectPath = configModule.getProjectPath(jestirConfig, args.project, convertFilePathToRobloxPath)
+		local projectPath = configModule.getProjectPath(jestRodeoConfig, args.project, convertFilePathToRobloxPath)
 		if not projectPath then
-			error(`Project "{args.project}" not found in jestir.toml`)
+			error(`Project "{args.project}" not found in jest-rodeo.toml`)
 		end
 
 		projects = { projectPath }
 	else
-		if jestirConfig then
-			projects = configModule.getAllProjectPaths(jestirConfig, convertFilePathToRobloxPath)
+		if jestRodeoConfig then
+			projects = configModule.getAllProjectPaths(jestRodeoConfig, convertFilePathToRobloxPath)
 		end
 	end
 
 	return projects, testPathPattern, testNamePattern
 end
 
-local function buildConfig(target: RunTarget, args, jestirConfig: any): RunTargetConfig
+local function buildConfig(target: RunTarget, args, jestRodeoConfig: any): RunTargetConfig
 	if target == "cloud" then
 		local apiKey: string = if typeof(args.api_key) == "string" then args.api_key else getApiKey()
 
 		local universeId: string? = args.universe_id
-		if not universeId and jestirConfig and typeof(jestirConfig.cloud) == "table" and typeof(jestirConfig.cloud.universe_id) == "string" then
-			universeId = jestirConfig.cloud.universe_id
-		elseif not universeId and jestirConfig and typeof(jestirConfig.cloud) == "table" and typeof(jestirConfig.cloud.universe_id) == "number" then
-			universeId = tostring(jestirConfig.cloud.universe_id)
+		if not universeId and jestRodeoConfig and typeof(jestRodeoConfig.cloud) == "table" and typeof(jestRodeoConfig.cloud.universe_id) == "string" then
+			universeId = jestRodeoConfig.cloud.universe_id
+		elseif not universeId and jestRodeoConfig and typeof(jestRodeoConfig.cloud) == "table" and typeof(jestRodeoConfig.cloud.universe_id) == "number" then
+			universeId = tostring(jestRodeoConfig.cloud.universe_id)
 		end
 		if not universeId then
-			error("Universe ID required for --target cloud. Provide via --universe-id flag or jestir.toml [cloud] section")
+			error("Universe ID required for --target cloud. Provide via --universe-id flag or jest-rodeo.toml [cloud] section")
 		end
 
 		local placeId: string? = args.place_id
-		if not placeId and jestirConfig and typeof(jestirConfig.cloud) == "table" and typeof(jestirConfig.cloud.place_id) == "string" then
-			placeId = jestirConfig.cloud.place_id
-		elseif not placeId and jestirConfig and typeof(jestirConfig.cloud) == "table" and typeof(jestirConfig.cloud.place_id) == "number" then
-			placeId = tostring(jestirConfig.cloud.place_id)
+		if not placeId and jestRodeoConfig and typeof(jestRodeoConfig.cloud) == "table" and typeof(jestRodeoConfig.cloud.place_id) == "string" then
+			placeId = jestRodeoConfig.cloud.place_id
+		elseif not placeId and jestRodeoConfig and typeof(jestRodeoConfig.cloud) == "table" and typeof(jestRodeoConfig.cloud.place_id) == "number" then
+			placeId = tostring(jestRodeoConfig.cloud.place_id)
 		end
 		if not placeId then
-			error("Place ID required for --target cloud. Provide via --place-id flag or jestir.toml [cloud] section")
+			error("Place ID required for --target cloud. Provide via --place-id flag or jest-rodeo.toml [cloud] section")
 		end
 
 		local placeVersion: string? = args.place_version
-		if not placeVersion and jestirConfig and typeof(jestirConfig.cloud) == "table" and typeof(jestirConfig.cloud.place_version) == "string" then
-			placeVersion = jestirConfig.cloud.place_version
-		elseif not placeVersion and jestirConfig and typeof(jestirConfig.cloud) == "table" and typeof(jestirConfig.cloud.place_version) == "number" then
-			placeVersion = tostring(jestirConfig.cloud.place_version)
+		if not placeVersion and jestRodeoConfig and typeof(jestRodeoConfig.cloud) == "table" and typeof(jestRodeoConfig.cloud.place_version) == "string" then
+			placeVersion = jestRodeoConfig.cloud.place_version
+		elseif not placeVersion and jestRodeoConfig and typeof(jestRodeoConfig.cloud) == "table" and typeof(jestRodeoConfig.cloud.place_version) == "number" then
+			placeVersion = tostring(jestRodeoConfig.cloud.place_version)
 		end
 
 		local upload: boolean? = args.upload
-		if upload == nil and jestirConfig and typeof(jestirConfig.cloud) == "table" and typeof(jestirConfig.cloud.upload) == "boolean" then
-			upload = jestirConfig.cloud.upload
+		if upload == nil and jestRodeoConfig and typeof(jestRodeoConfig.cloud) == "table" and typeof(jestRodeoConfig.cloud.upload) == "boolean" then
+			upload = jestRodeoConfig.cloud.upload
 		end
 
 		local placePath: string? = nil
 		if typeof(args.place) == "string" then
 			placePath = args.place
-		elseif jestirConfig and typeof(jestirConfig.once) == "table" and typeof(jestirConfig.once.place_file) == "string" then
-			placePath = jestirConfig.once.place_file
+		elseif jestRodeoConfig and typeof(jestRodeoConfig.once) == "table" and typeof(jestRodeoConfig.once.place_file) == "string" then
+			placePath = jestRodeoConfig.once.place_file
 		end
 
 		return {
@@ -153,10 +153,10 @@ local function buildConfig(target: RunTarget, args, jestirConfig: any): RunTarge
 		local placePath: string
 		if typeof(args.place) == "string" then
 			placePath = args.place
-		elseif jestirConfig and typeof(jestirConfig.once) == "table" and typeof(jestirConfig.once.place_file) == "string" then
-			placePath = jestirConfig.once.place_file
+		elseif jestRodeoConfig and typeof(jestRodeoConfig.once) == "table" and typeof(jestRodeoConfig.once.place_file) == "string" then
+			placePath = jestRodeoConfig.once.place_file
 		else
-			error("Place file path required for --target once. Provide via --place flag or jestir.toml [once] section")
+			error("Place file path required for --target once. Provide via --place flag or jest-rodeo.toml [once] section")
 		end
 
 		local sourcemapPath: string? = if typeof(args.sourcemap) == "string" then args.sourcemap else "sourcemap.json"
@@ -188,9 +188,9 @@ local function main(): number
 		error(`Invalid target "{target}". Must be one of: once, serve, cloud`)
 	end
 
-	local jestirConfig = configModule.loadConfig()
-	local projects, testPathPattern, testNamePattern = determineProjects(args, jestirConfig)
-	local config = buildConfig(target, args, jestirConfig)
+	local jestRodeoConfig = configModule.loadConfig()
+	local projects, testPathPattern, testNamePattern = determineProjects(args, jestRodeoConfig)
+	local config = buildConfig(target, args, jestRodeoConfig)
 	local scriptContent = generateTestScript({
 		verbose = args.verbose or false,
 		ci = args.ci or false,

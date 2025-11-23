@@ -6,7 +6,7 @@ local types = require("./types")
 
 type OnceConfig = types.OnceConfig
 
-local TEMP_DIR = ".jestir"
+local TEMP_DIR = ".jest-rodeo"
 
 local function runTestsOnce(scriptContent: string, config: OnceConfig): number
 	local placePath = config.placePath
@@ -42,7 +42,7 @@ local function runTestsOnce(scriptContent: string, config: OnceConfig): number
 		table.insert(args, "--no-warn")
 	end
 
-	local result = process.exec("rir3", args, {
+	local result = process.exec("rodeo", args, {
 		stdio = "forward",
 	})
 

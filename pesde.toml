@@ -1,5 +1,5 @@
-name = "rvy/jestir"
-version = "0.0.4-rc.3"
+name = "rvy/jest_rodeo"
+version = "0.0.1"
 includes = [
   "pesde.toml",
   "README.md",
@@ -16,16 +16,11 @@ pesde = "^0.7.1"
 environment = "lune"
 bin = "src/init.luau"
 
-[dev_dependencies]
-luau_lsp = { name = "pesde/luau_lsp", version = "^1.55.0", target = "lune" }
-stylua = { name = "pesde/stylua", version = "^2.3.0", target = "lune" }
-selene = { name = "pesde/selene", version = "^0.29.0+toolchainlib.1", target = "lune" }
-pathfs = { name = "jiwonz/pathfs", version = "^0.6.0", target = "lune" }
-
 [dependencies]
+pathfs = { name = "jiwonz/pathfs", version = "^0.6.0", target = "lune" }
 argparse = { name = "caveful_games/argparse", version = "^0.1.2", target = "lune" }
-rir3 = { name = "rvy/rir3", version = "^0.1.2-rc.4", target = "lune" }
-rojo = { name = "pesde/rojo", version = "^7.6.0", target = "lune" }
+chalk = { name = "kimpure/chalk_luau", version = "^0.1.8", target = "lune" }
+spin = { name = "rvy/spin", version = "^0.0.4", target = "lune" }
 
 [indices]
 default = "https://github.com/pesde-pkg/index"

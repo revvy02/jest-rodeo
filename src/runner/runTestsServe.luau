@@ -22,7 +22,7 @@ local function runTestsServe(scriptContent: string, config: ServeConfig): number
 		table.insert(args, "--no-warn")
 	end
 
-	local result = process.exec("rir3", args, {
+	local result = process.exec("rodeo", args, {
 		stdio = "forward",
 	})
 

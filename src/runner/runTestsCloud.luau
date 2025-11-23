@@ -1,8 +1,8 @@
 --!strict
 
 local executeLuauTaskAsync = require("../utility/executeLuauTaskAsync")
-local uploadPlaceAsync = require("../utility/uploadPlaceAsync")
 local types = require("./types")
+local uploadPlaceAsync = require("../utility/uploadPlaceAsync")
 
 type CloudConfig = types.CloudConfig
 
@@ -20,7 +20,7 @@ local function runTestsCloud(scriptContent: string, config: CloudConfig): number
 	if config.upload then
 		if not config.placePath then
 			print("Error: --upload flag requires a place file path")
-			print("Provide via --place flag or jestir.toml [once.place_file]")
+			print("Provide via --place flag or jest-rodeo.toml [once.place_file]")
 			return 1
 		end
 
@@ -48,7 +48,7 @@ local function runTestsCloud(scriptContent: string, config: CloudConfig): number
 
 	if not placeVersion then
 		print("Error: Place version is required for cloud execution")
-		print("Specify via --place-version flag, jestir.toml [cloud] section, or use --upload flag with a place file")
+		print("Specify via --place-version flag, jest-rodeo.toml [cloud] section, or use --upload flag with a place file")
 		return 1
 	end
 

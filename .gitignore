@@ -14,7 +14,7 @@ luau_packages/
 # OS
 .DS_Store
 
-.jestir
+.jest-rodeo
 
 # IDE
 .vscode/
@@ -22,3 +22,5 @@ luau_packages/
 *.swp
 *.swo
 *~
+
+build

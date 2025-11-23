@@ -3,7 +3,7 @@
 local fs = require("@lune/fs")
 local serde = require("@lune/serde")
 
-export type JestirConfig = {
+export type JestRodeoConfig = {
 	once: {
 		place_file: string?,
 	}?,
@@ -18,8 +18,8 @@ export type JestirConfig = {
 	}?,
 }
 
-local function loadConfig(): JestirConfig?
-	local configPath = "jestir.toml"
+local function loadConfig(): JestRodeoConfig?
+	local configPath = "jest-rodeo.toml"
 
 	if not fs.isFile(configPath) then
 		return nil
@@ -28,10 +28,10 @@ local function loadConfig(): JestirConfig?
 	local content = fs.readFile(configPath)
 	local config = serde.decode("toml", content)
 
-	return config :: JestirConfig
+	return config :: JestRodeoConfig
 end
 
-local function getAllProjectPaths(config: JestirConfig, convertFilePathToRobloxPath: (string) -> (string, string?)): { string }
+local function getAllProjectPaths(config: JestRodeoConfig, convertFilePathToRobloxPath: (string) -> (string, string?)): { string }
 	local paths = {}
 
 	if config.projects then
@@ -46,7 +46,7 @@ local function getAllProjectPaths(config: JestirConfig, convertFilePathToRobloxP
 	return paths
 end
 
-local function getProjectPath(config: JestirConfig, projectName: string, convertFilePathToRobloxPath: (string) -> (string, string?)): string?
+local function getProjectPath(config: JestRodeoConfig, projectName: string, convertFilePathToRobloxPath: (string) -> (string, string?)): string?
 	if not config.projects then
 		return nil
 	end
