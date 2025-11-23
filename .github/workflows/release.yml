@@ -42,24 +42,21 @@ jobs:
       - name: Install mise
         if: steps.check_release.outputs.exists == 'false'
         uses: jdx/mise-action@v2
-        with:
-          experimental: true
 
-      - name: Install Pesde Dependencies
+      - name: Install Pesde dependencies
+        if: steps.check_release.outputs.exists == 'false'
+        run: pesde install
+
+      - name: Setup lune PATH
         if: steps.check_release.outputs.exists == 'false'
         run: |
-          pesde install
-          # Source shell configs to pick up any PATH changes
-          source ~/.bashrc 2>/dev/null || source ~/.profile 2>/dev/null || true
-          # Check if lune is now in PATH
-          which lune || echo "lune still not in PATH after sourcing shell"
+          # Pesde installs lune to ~/.pesde/engines but doesn't add it to PATH
+          # We need to manually add it for the build step
+          echo "$HOME/.pesde/engines/github/lune-org/lune/0.10.4" >> $GITHUB_PATH
 
       - name: Build binaries
         if: steps.check_release.outputs.exists == 'false'
-        run: |
-          # Try sourcing again in this step
-          source ~/.bashrc 2>/dev/null || source ~/.profile 2>/dev/null || true
-          lune run .lune/build.luau
+        run: lune run .lune/build.luau
 
       - name: Package binaries
         if: steps.check_release.outputs.exists == 'false'
