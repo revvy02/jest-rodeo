@@ -34,7 +34,9 @@ local function executeLuauTaskAsync(options: ExecuteTaskOptions)
 	local executionTask: LuauExecutionSessionTask? = nil
 
 	local function createTaskAsync(): boolean
-		local renderer = spin.render(spin.animations.line)
+		local renderer = spin.render(spin.animations.arc, function(frame: string, text: string)
+			return chalk.green(chalk.bold(frame .. " " .. text))
+		end)
 		local _setText, stop = spin.start(renderer, "Creating execution task...")
 
 		local res = net.request({
@@ -70,7 +72,9 @@ local function executeLuauTaskAsync(options: ExecuteTaskOptions)
 			error("Execution task is nil")
 		end
 
-		local renderer = spin.render(spin.animations.line)
+		local renderer = spin.render(spin.animations.arc, function(frame: string, text: string)
+			return chalk.green(chalk.bold(frame .. " " .. text))
+		end)
 		local _setText, stop = spin.start(renderer, "Waiting for task to complete...")
 
 		while true do
@@ -107,7 +111,9 @@ local function executeLuauTaskAsync(options: ExecuteTaskOptions)
 			error("Execution task is nil")
 		end
 
-		local renderer = spin.render(spin.animations.line)
+		local renderer = spin.render(spin.animations.arc, function(frame: string, text: string)
+			return chalk.green(chalk.bold(frame .. " " .. text))
+		end)
 		local _setText, stop = spin.start(renderer, "Fetching task logs...")
 
 		local res = net.request({

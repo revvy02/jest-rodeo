@@ -63,14 +63,14 @@ index_url = "https://github.com/pesde-pkg/index"
 darklua = [{ name = "pesde/darklua", version = "^0.16.0", index = "https://github.com/pesde-pkg/index", target = "lune" }, "dev"]
 multitarget = [{ name = "jiwonz/multitarget", version = "^0.4.0-rc.30", index = "https://github.com/pesde-pkg/index", target = "lune" }, "dev"]
 
-[graph."rvy/spin@0.0.4 lune"]
-direct = ["spin", { name = "rvy/spin", version = "^0.0.4", index = "default", target = "lune" }, "standard"]
+[graph."rvy/spin@0.0.5 lune"]
+direct = ["spin", { name = "rvy/spin", version = "^0.0.5", index = "default", target = "lune" }, "standard"]
 
-[graph."rvy/spin@0.0.4 lune".pkg_ref]
+[graph."rvy/spin@0.0.5 lune".pkg_ref]
 ref_ty = "pesde"
 index_url = "https://github.com/pesde-pkg/index"
 
-[graph."rvy/spin@0.0.4 lune".pkg_ref.dependencies]
+[graph."rvy/spin@0.0.5 lune".pkg_ref.dependencies]
 luau_lsp = [{ name = "pesde/luau_lsp", version = "^1.55.0", index = "https://github.com/pesde-pkg/index", target = "lune" }, "dev"]
 selene = [{ name = "pesde/selene", version = "^0.29.0", index = "https://github.com/pesde-pkg/index", target = "lune" }, "dev"]
 stylua = [{ name = "pesde/stylua", version = "^2.3.0", index = "https://github.com/pesde-pkg/index", target = "lune" }, "dev"]

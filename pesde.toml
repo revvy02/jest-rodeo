@@ -20,7 +20,7 @@ bin = "src/init.luau"
 pathfs = { name = "jiwonz/pathfs", version = "^0.6.0", target = "lune" }
 argparse = { name = "caveful_games/argparse", version = "^0.1.2", target = "lune" }
 chalk = { name = "kimpure/chalk_luau", version = "^0.1.8", target = "lune" }
-spin = { name = "rvy/spin", version = "^0.0.4", target = "lune" }
+spin = { name = "rvy/spin", version = "^0.0.5", target = "lune" }
 
 [indices]
 default = "https://github.com/pesde-pkg/index"
