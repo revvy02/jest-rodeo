@@ -52,9 +52,17 @@ jobs:
       - name: Debug Pesde installation
         if: steps.check_release.outputs.exists == 'false'
         run: |
-          ls -la .pesde/
-          ls -la .pesde/bin/ || echo "bin directory not found"
-          find . -name "lune" -type f
+          echo "Current directory: $(pwd)"
+          echo "Looking for .pesde directory..."
+          ls -la .pesde/ 2>/dev/null || echo ".pesde/ not found in current directory"
+          echo "Searching for lune in workspace..."
+          find . -name "lune" -type f 2>/dev/null || echo "lune not found in workspace"
+          echo "Searching for lune in home directory..."
+          find ~ -name "lune" -type f 2>/dev/null | head -5 || echo "lune not found in home"
+          echo "Checking which lune..."
+          which lune || echo "lune not in PATH"
+          echo "Listing lune_packages..."
+          ls -la lune_packages/ 2>/dev/null || echo "lune_packages not found"
 
       - name: Add Pesde bin to PATH
         if: steps.check_release.outputs.exists == 'false'
