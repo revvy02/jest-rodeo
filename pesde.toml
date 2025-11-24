@@ -1,5 +1,5 @@
 name = "rvy/jest_rodeo"
-version = "0.0.1"
+version = "0.0.2"
 includes = [
   "pesde.toml",
   "README.md",
