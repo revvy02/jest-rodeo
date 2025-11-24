@@ -15,14 +15,12 @@ export type CloudConfig = {
 export type OnceConfig = {
 	target: "once",
 	placePath: string,
-	sourcemapPath: string?,
 	noError: boolean?,
 	noWarn: boolean?,
 }
 
 export type ServeConfig = {
 	target: "serve",
-	sourcemapPath: string?,
 	noError: boolean?,
 	noWarn: boolean?,
 }

@@ -67,7 +67,6 @@ local function parseArgs()
 	parser:option("--api-key", "Roblox Open Cloud API key")
 	parser:flag("--upload", "Upload the place file before running tests (cloud only)")
 	parser:option("--place", "Path to place file (for once target and cloud with --upload)")
-	parser:option("--sourcemap", "Path to sourcemap.json")
 
 	return parser:parse(process.args)
 end
@@ -159,21 +158,15 @@ local function buildConfig(target: RunTarget, args, jestRodeoConfig: any): RunTa
 			error("Place file path required for --target once. Provide via --place flag or jest-rodeo.toml [once] section")
 		end
 
-		local sourcemapPath: string? = if typeof(args.sourcemap) == "string" then args.sourcemap else "sourcemap.json"
-
 		return {
 			target = "once",
 			placePath = placePath,
-			sourcemapPath = sourcemapPath,
 			noError = args.no_error,
 			noWarn = args.no_warn,
 		}
 	else
-		local sourcemapPath: string? = if typeof(args.sourcemap) == "string" then args.sourcemap else "sourcemap.json"
-
 		return {
 			target = "serve",
-			sourcemapPath = sourcemapPath,
 			noError = args.no_error,
 			noWarn = args.no_warn,
 		}
