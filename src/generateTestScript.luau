@@ -1,6 +1,8 @@
 --!strict
 
 export type TestOptions = {
+	module: string,
+	setup: string?,
 	verbose: boolean,
 	ci: boolean,
 	projects: { string }?,
@@ -11,6 +13,7 @@ export type TestOptions = {
 local function generateTestScript(options: TestOptions): string
 	local optionsTable = {}
 
+	table.insert(optionsTable, "setupFiles = { " .. tostring(options.setup) .. " }")
 	table.insert(optionsTable, "verbose = " .. tostring(options.verbose))
 	table.insert(optionsTable, "ci = " .. tostring(options.ci))
 	-- table.insert(optionsTable, "noStackTrace = true")
@@ -32,7 +35,7 @@ local function generateTestScript(options: TestOptions): string
 	end
 
 	return [[
-local runCLI = require(game.ReplicatedStorage.packages.jest).runCLI
+local runCLI = require(]] .. options.module .. [[).runCLI
 
 local processServiceExists, ProcessService = pcall(function()
     return game:GetService("ProcessService")

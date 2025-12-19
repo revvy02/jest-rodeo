@@ -4,6 +4,10 @@ local fs = require("@lune/fs")
 local serde = require("@lune/serde")
 
 export type JestRodeoConfig = {
+	jest: {
+		module: string,
+		setup: string?,
+	},
 	once: {
 		place_file: string?,
 	}?,

@@ -3,6 +3,8 @@
 export type RunTarget = "cloud" | "once" | "serve"
 
 export type CloudConfig = {
+	module: string,
+	setup: string?,
 	target: "cloud",
 	universeId: string,
 	placeId: string,
@@ -13,6 +15,8 @@ export type CloudConfig = {
 }
 
 export type OnceConfig = {
+	module: string,
+	setup: string?,
 	target: "once",
 	placePath: string,
 	noError: boolean?,
@@ -20,6 +24,8 @@ export type OnceConfig = {
 }
 
 export type ServeConfig = {
+	module: string,
+	setup: string?,
 	target: "serve",
 	noError: boolean?,
 	noWarn: boolean?,

@@ -1,3 +1,7 @@
+[jest]
+module = "packages/jest"
+# setup = ""
+
 [once]
 place_file = "test.rbxl"
 

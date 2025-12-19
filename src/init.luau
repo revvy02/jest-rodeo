@@ -140,6 +140,8 @@ local function buildConfig(target: RunTarget, args, jestRodeoConfig: any): RunTa
 		end
 
 		return {
+			module = jestRodeoConfig.jest.module,
+			setup = jestRodeoConfig.jest.setup,
 			target = "cloud" :: "cloud",
 			universeId = universeId,
 			placeId = placeId,
@@ -159,6 +161,8 @@ local function buildConfig(target: RunTarget, args, jestRodeoConfig: any): RunTa
 		end
 
 		return {
+			module = jestRodeoConfig.jest.module,
+			setup = jestRodeoConfig.jest.setup,
 			target = "once",
 			placePath = placePath,
 			noError = args.no_error,
@@ -166,6 +170,8 @@ local function buildConfig(target: RunTarget, args, jestRodeoConfig: any): RunTa
 		}
 	else
 		return {
+			module = jestRodeoConfig.jest.module,
+			setup = jestRodeoConfig.jest.setup,
 			target = "serve",
 			noError = args.no_error,
 			noWarn = args.no_warn,
@@ -185,6 +191,8 @@ local function main(): number
 	local projects, testPathPattern, testNamePattern = determineProjects(args, jestRodeoConfig)
 	local config = buildConfig(target, args, jestRodeoConfig)
 	local scriptContent = generateTestScript({
+		module = convertFilePathToRobloxPath(config.module),
+		setup = config.setup and convertFilePathToRobloxPath(config.setup),
 		verbose = args.verbose or false,
 		ci = args.ci or false,
 		projects = projects,
